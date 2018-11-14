@@ -1,0 +1,33 @@
+{
+	"private": true,
+	"name": "blog-api",
+	"version": "1.0.0",
+	"description": "Blog API",
+	"main": "server.js",
+	"scripts": {
+		"dev": "env REDIS_HOST=192.168.99.100 TOKEN_SECRET='keyboard cat' nodemon | bunyan -o short",
+		"test": "mocha ./tests"
+	},
+	"author": "Jonathan Giroux",
+	"license": "MIT",
+	"dependencies": {
+		"ajv": "^6.5.5",
+		"bunyan": "^1.8.12",
+		"express": "^4.16.4",
+		"jsonwebtoken": "^8.3.0",
+		"redis": "^2.8.0"
+	},
+	"devDependencies": {
+		"chai": "^4.2.0",
+		"chai-http": "^4.2.0",
+		"errorhandler": "^1.5.0",
+		"eslint": "^5.8.0",
+		"eslint-plugin-import": "^2.14.0",
+		"eslint-plugin-node": "^8.0.0",
+		"eslint-plugin-promise": "^4.0.1",
+		"eslint-plugin-standard": "^4.0.0",
+		"mocha": "^5.2.0",
+		"nodemon": "^1.18.6",
+		"redis-mock": "^0.37.0"
+	}
+}
