@@ -1,30 +1,32 @@
-const {
-	schema,
-} = require('../middlewares');
-
-module.exports = (router) => {
-	router.post('/token', schema('body', {
-		properties: {
-			userId: {
-				type: 'integer',
+module.exports = (router, {
+	middlewares,
+	services,
+}) => {
+	router.post('/token',
+		middlewares.schema('body', {
+			properties: {
+				userId: {
+					type: 'integer',
+				},
 			},
-		},
-		required: [
-			'userId',
-		],
-	}), (req, res, next) => {
-		const userId = req.body.userId;
+			required: [
+				'userId',
+			],
+		}),
+		middlewares.sendToken,
+		(req, res, next) => {
+			const userId = req.body.userId;
 
-		return req.redis.exists('user:' + userId, (err, exists) => {
-			if (err)
-				return next(err);
+			return services.redis.exists('user:' + userId, (err, exists) => {
+				if (err)
+					return next(err);
 
-			if (!exists)
-				return res.sendStatus(400);
+				if (!exists)
+					return res.sendStatus(400);
 
-			return res.sendToken({
-				userId,
+				return res.sendToken({
+					userId,
+				});
 			});
 		});
-	});
 };

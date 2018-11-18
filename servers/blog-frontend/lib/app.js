@@ -1,7 +1,9 @@
 const express = require('express');
+const md = require('markdown-it')({
+	linkify: true,
+});
 
 const routerFactory = require('./router');
-const middlewaresFactory = require('./middlewares');
 
 module.exports = (services) => {
 	const {
@@ -10,14 +12,21 @@ module.exports = (services) => {
 	} = services;
 
 	const app = express();
-	const middlewares = middlewaresFactory(conf);
+	app.set('view engine', 'pug');
 
-	app.use(express.json());
+	app.locals.markdown = (src) => md.render(src);
 
-	app.use(routerFactory({
-		middlewares,
-		services,
-	}));
+	app.use((req, res, next) => {
+		Object.assign(req, services);
+
+		res.send502 = () => res.status(502).render('502');
+
+		return next();
+	});
+
+	app.use(routerFactory());
+
+	app.use(express.static('./static'));
 
 	if (process.env['NODE_ENV']) {
 		app.use((err, req, res, next) => { // eslint-disable-line no-unused-vars

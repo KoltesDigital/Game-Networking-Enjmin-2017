@@ -77,12 +77,33 @@ describe('Messages', () => {
 			.then((res) => {
 				expect(res).to.have.status(200);
 				expect(res.body.messages).to.be.an('Array').with.lengthOf(1);
-				expect(res.body.messages[0]).to.include({
+				expect(res.body.messages[0]).to.deep.include({
 					body: 'foo bar',
 					id: messageId,
-					userId: userId,
+					user: {
+						id: userId,
+						name: 'John Doe',
+					},
 				});
 				expect(res.body.messages[0].date).to.be.a('number');
+			})
+
+			.then(() => {
+				return request(app)
+					.get('/messages/' + messageId);
+			})
+			.then((res) => {
+				expect(res).to.have.status(200);
+				expect(res.body).to.be.an('object');
+				expect(res.body).to.deep.include({
+					body: 'foo bar',
+					id: messageId,
+					user: {
+						id: userId,
+						name: 'John Doe',
+					},
+				});
+				expect(res.body.date).to.be.a('number');
 			});
 	});
 });

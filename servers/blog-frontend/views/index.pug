@@ -1,0 +1,13 @@
+extends layout.pug
+
+append container
+	section
+		h1 Messages
+		each message in messages
+			article.message
+				p!= markdown(message.body)
+				p: em By 
+					a(href='/users/' + message.user.id)= message.user.name
+					|  on 
+					a(href='/messages/' + message.id)= new Date(message.date).toISOString()
+					| .

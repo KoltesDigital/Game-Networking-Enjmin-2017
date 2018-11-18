@@ -5,11 +5,11 @@ const {
 	readdirSync,
 } = require('fs');
 
-module.exports = (options) => {
+module.exports = () => {
 	const router = new Router();
 
 	readdirSync(__dirname + '/routes').forEach((filename) => {
-		require('./routes/' + filename)(router, options);
+		require('./routes/' + filename)(router);
 	});
 
 	return router;
