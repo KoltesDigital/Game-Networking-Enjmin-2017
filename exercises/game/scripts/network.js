@@ -1,4 +1,4 @@
-const socket = io('http://localhost');
+const socket = io('https://game.enjmin.koltes.digital');
 
 let network;
 
