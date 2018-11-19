@@ -54,7 +54,7 @@ describe('Users', () => {
 			});
 	});
 
-	it('creates an user, but cannot edit it if not authenticated', () => {
+	it('creates an user, but cannot update it if not authenticated', () => {
 		let userId;
 
 		return request(app)
@@ -126,7 +126,7 @@ describe('Users', () => {
 					});
 			})
 			.then((res) => {
-				expect(res).to.have.status(200);
+				expect(res).to.have.status(204);
 			})
 
 			.then(() => {
@@ -142,7 +142,7 @@ describe('Users', () => {
 			});
 	});
 
-	it('creates an user, edits it, and gets it', () => {
+	it('creates an user, updates it, and gets it', () => {
 		let userId;
 		let token;
 
@@ -177,7 +177,7 @@ describe('Users', () => {
 					});
 			})
 			.then((res) => {
-				expect(res).to.have.status(200);
+				expect(res).to.have.status(204);
 			})
 
 			.then(() => {
@@ -193,7 +193,7 @@ describe('Users', () => {
 			});
 	});
 
-	it('creates two users, the former cannot edit the latter', () => {
+	it('creates two users, the former cannot update the latter', () => {
 		let userIdA;
 		let userIdB;
 		let token;
@@ -212,7 +212,7 @@ describe('Users', () => {
 				return request(app)
 					.post('/users')
 					.send({
-						name: 'John Doe',
+						name: 'Jane Doe',
 					});
 			})
 			.then((res) => {
@@ -237,7 +237,7 @@ describe('Users', () => {
 					.put('/users/' + userIdB)
 					.set('X-Auth-Token', token)
 					.send({
-						name: 'Jane Doe',
+						name: 'Jane Doe 2',
 					});
 			})
 			.then((res) => {
@@ -252,7 +252,7 @@ describe('Users', () => {
 				expect(res).to.have.status(200);
 				expect(res.body).to.eql({
 					id: userIdB,
-					name: 'John Doe',
+					name: 'Jane Doe',
 				});
 			});
 	});
@@ -311,7 +311,7 @@ describe('Users', () => {
 					.set('X-Auth-Token', token);
 			})
 			.then((res) => {
-				expect(res).to.have.status(200);
+				expect(res).to.have.status(204);
 			})
 
 			.then(() => {
@@ -342,7 +342,7 @@ describe('Users', () => {
 				return request(app)
 					.post('/users')
 					.send({
-						name: 'John Doe',
+						name: 'Jane Doe',
 					});
 			})
 			.then((res) => {
@@ -379,7 +379,7 @@ describe('Users', () => {
 				expect(res).to.have.status(200);
 				expect(res.body).to.eql({
 					id: userIdB,
-					name: 'John Doe',
+					name: 'Jane Doe',
 				});
 			});
 	});

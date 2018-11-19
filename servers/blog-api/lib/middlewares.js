@@ -13,8 +13,12 @@ module.exports = (conf) => {
 				return res.sendStatus(401);
 
 			return jwt.verify(token, conf['TOKEN_SECRET'], (err, decoded) => {
-				if (err)
-					return next(err);
+				if (err) {
+					if (err.name === 'TokenExpiredError')
+						return res.sendStatus(401);
+
+					return res.sendStatus(400);
+				}
 
 				req.token = decoded;
 				return next();

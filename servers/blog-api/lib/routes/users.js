@@ -78,7 +78,7 @@ module.exports = (router, {
 				if (err)
 					return next(err);
 
-				return res.sendStatus(200);
+				return res.sendStatus(204);
 			});
 		});
 
@@ -98,7 +98,7 @@ module.exports = (router, {
 					if (err)
 						return next(err);
 
-					return res.sendStatus(200);
+					return res.sendStatus(204);
 				});
 		});
 };

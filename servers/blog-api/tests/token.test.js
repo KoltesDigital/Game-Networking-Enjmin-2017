@@ -15,7 +15,7 @@ describe('Token', () => {
 				userId: 1,
 			})
 			.then((res) => {
-				expect(res).to.have.status(400);
+				expect(res).to.have.status(401);
 			});
 	});
 

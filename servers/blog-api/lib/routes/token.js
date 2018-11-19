@@ -22,7 +22,7 @@ module.exports = (router, {
 					return next(err);
 
 				if (!exists)
-					return res.sendStatus(400);
+					return res.sendStatus(401);
 
 				return res.sendToken({
 					userId,

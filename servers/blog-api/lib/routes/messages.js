@@ -39,8 +39,10 @@ module.exports = (router, {
 
 						const users = {};
 						userIds.forEach((userId, i) => {
-							users[userId] = JSON.parse(jsons[i]);
-							users[userId].id = parseInt(userId);
+							if (jsons[i]) {
+								users[userId] = JSON.parse(jsons[i]);
+								users[userId].id = parseInt(userId);
+							}
 						});
 
 						messages.forEach((message) => {
@@ -74,8 +76,10 @@ module.exports = (router, {
 					if (err)
 						return next(err);
 
-					message.user = JSON.parse(json);
-					message.user.id = message.userId;
+					if (json) {
+						message.user = JSON.parse(json);
+						message.user.id = message.userId;
+					}
 					delete message.userId;
 
 					return res.json(message);
@@ -158,9 +162,7 @@ module.exports = (router, {
 					if (err)
 						return next(err);
 
-					return res.status(201).json({
-						id,
-					});
+					return res.sendStatus(204);
 				});
 			});
 		});
@@ -183,13 +185,13 @@ module.exports = (router, {
 					return res.sendStatus(403);
 
 				return services.redis.multi()
-					.srem('message-ids', id)
+					.lrem('message-ids', 1, id)
 					.del('message:' + id)
 					.exec((err) => {
 						if (err)
 							return next(err);
 
-						return res.sendStatus(200);
+						return res.sendStatus(204);
 					});
 			});
 		});
