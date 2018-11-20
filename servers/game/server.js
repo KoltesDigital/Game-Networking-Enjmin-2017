@@ -33,7 +33,7 @@ io.on('connection', (socket) => {
 		for (let otherClientId in gameObjectPositionStatesInRoom) {
 			const clientGameObjectPositionStates = gameObjectPositionStatesInRoom[otherClientId];
 			for (let gameObjectId in clientGameObjectPositionStates) {
-				io.emit('create-game-object', otherClientId, gameObjectId, clientGameObjectPositionStates[gameObjectId]);
+				io.to(channel).emit('create-game-object', otherClientId, gameObjectId, clientGameObjectPositionStates[gameObjectId]);
 			}
 		}
 
