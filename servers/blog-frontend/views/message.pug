@@ -6,7 +6,10 @@ append container
 		article.message
 			p!= markdown(message.body)
 			p: em By 
-				a(href='/users/' + message.user.id)= message.user.name
+				if message.user
+					a(href='/users/' + message.user.id)= message.user.name
+				else
+					span [deleted user]
 				|  on 
 				a(href='/messages/' + message.id)= new Date(message.date).toISOString()
 				| .
